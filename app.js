@@ -19,8 +19,26 @@ inputFrom.addEventListener("input", ()=>{
         console.log(editedValue);
         inputTo.value = Number(editedValue) * 1.7;
     }
+    else if(inputFrom.value == ''){
+        inputTo.value = '';
+    }
     else{
         inputTo.value = inputFrom.value * 1.7;
     }
 })
-//* eger input daxil edende reqemler noqte ile ayrilirsa o ya milyonuda xarakterize ede biler qepiyinide xarakterize ede biler.
+inputTo.addEventListener("input", ()=>{
+    console.log(inputTo.value);
+    if (inputTo.value.includes(".")){
+        let editedValue = inputTo.value.split('.');
+        editedValue.splice(1, 0, '.');
+        editedValue = editedValue.join('');
+        inputFrom.value = Number(editedValue) / 1.7;
+    }
+    else if(inputTo.value == ''){
+        inputFrom.value = '';
+    }
+    else{
+        inputFrom.value = inputTo.value / 1.7;
+    }
+})
+//* input daxil edende ele elemek lazimdiki inputun deyerini goturdu sonra onu valyutaya cevirsin vursun

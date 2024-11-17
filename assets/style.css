@@ -67,9 +67,8 @@ main{
 .converter-container{
     width: 100%;
     display: flex;
-    justify-content: space-betweens;
+    justify-content: space-between;
     align-items: center;
-    gap: 200px;
 }
 .box{
     display: flex;
