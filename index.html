@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Currency Converter</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="icon" type="image/x-icon" href="./assets/img/pageIconConverter.png">
+</head>
+<body>    
+    <header>
+        <div id="information-side">
+            <img src="./assets/img/pageLogo.svg" alt="logo">
+            <nav>
+                <ul class="navigations">
+                    <li>BANC</li>
+                    <li>BUSINESS</li>
+                    <li>INVESTMENT</li>
+                    <li>INSURANCE</li>
+                    <li>MOBILE</li>
+                    <li>TRIPS</li>
+                    <li>ENTERTAINMENT</li>
+                </ul>
+            </nav>
+        <button class="sign-btn">SIGN UP</button>
+        </div>
+    </header>
+    <main>
+        <h1>Online Currency Converter</h1>
+        <div class="converter-container">
+            <div class="box">
+                <span>I have</span>
+                <div class="moneyType fromMoney">
+                    <p class="money from">RUB</p>
+                    <hr>
+                    <p class="money from">USD</p>
+                    <hr>
+                    <p class="money from">EUR</p>
+                    <hr>
+                    <p class="money from">GBP</p>
+                </div>
+                <div class="inputSide">
+                    <input type="number" value="5000" class="changeFrom">
+                    <span class="currentValue1">1 RUB = 0.0135USD</span>
+                </div>
+            </div>
+            <div class="box">
+                <span>I want</span>
+                <div class="moneyType toMoney">
+                    <div class="money to">RUB</div>
+                    <hr>
+                    <div class="money to">USD</div>
+                    <hr>
+                    <div class="money to">EUR</div>
+                    <hr>
+                    <div class="money to">GBP</div>
+                </div>
+                <div class="inputSide">
+                    <input type="number" value="67.6685" class="changeTo">
+                    <span class="currentValue2">1 USD = 73.8896 RUB</span>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./app.js"></script>
+</body>
+</html>

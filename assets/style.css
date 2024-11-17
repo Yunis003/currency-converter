@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Roboto Slab", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+header {
+  background-color: rgb(245, 245, 245);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#information-side {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+}
+.navigations {
+  list-style-type: none;
+  display: flex;
+  gap: 50px;
+  margin-right: 150px;
+  cursor: pointer;
+}
+.navigations li:not(:first-child){
+    color: #959BA4;
+    transition: all .1s ease-in;
+    &:hover{
+        color: black;
+    }
+}
+.sign-btn{
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 700;
+    transition: all .1s ease-in;
+    cursor: pointer;
+    &:hover{
+        background-color: #e6e6e6;
+    }
+}
+main{
+    width: 53%;
+    display: flex;
+    flex-direction: column;
+        gap: 60px;
+        >h1{
+            font-size: 45px;
+        }
+}
+.converter-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-betweens;
+    align-items: center;
+    gap: 200px;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 350px;
+}
+.moneyType{
+    display: flex;
+    padding: 5px;
+    justify-content: space-evenly;
+    gap: 15px;
+    border: 1px solid #e6e6e6;
+}
+.inputSide{
+    display: flex;
+    justify-content: space-between;
+    height: 150px;
+    border-radius: 4px;
+    flex-direction: column;
+    border: 1px solid #e6e6e6;
+    padding: 15px;
+}
+.inputSide input{
+    height: 80px;
+    border: none;
+    font-size: 50px;
+    font-weight: 700;
+    &:focus{
+        outline: none;
+    }
+}
+.inputSide span{
+    color:#C6C6C6
+}
+.from:first-child{
+    background-color: #833AE0;
+}
+.to:nth-child(2){
+    background-color: #833AE0;
+}
