@@ -78,10 +78,16 @@ main{
 }
 .moneyType{
     display: flex;
-    padding: 5px;
     justify-content: space-evenly;
-    gap: 15px;
     border: 1px solid #e6e6e6;
+}
+.from, .to{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
 }
 .inputSide{
     display: flex;
@@ -103,4 +109,8 @@ main{
 }
 .inputSide span{
     color:#C6C6C6
+}
+.purpleBack1, .purpleBack2{
+    background-color: rgb(130, 60, 222);
+    color: #FFF;
 }
