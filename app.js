@@ -42,17 +42,27 @@ async function fetchingData(){
     })
     .then((data)=>{
         let conversionRateTo = data.conversion_rates[obj.to];
-        let conversionRateFrom = data.conversion_rates[obj.from];
-        obj.currentFrom = conversionRateFrom;
         obj.currentTo = conversionRateTo;
         currentValue1.textContent = `1 ${obj.from} = ${conversionRateTo} ${obj.to}`;
-        currentValue2.textContent = `1 ${obj.to} = ${(1 / conversionRateTo).toFixed(4)} ${obj.from}`;
+        currentValue2.textContent = `1 ${obj.to} = ${(1 / conversionRateTo)} ${obj.from}`;
+        updateInput();
     })
     .catch((error)=>{
         console.log(error);
     })
 }
-// ele bir sey elemelisen ki tutax ki bu currentvalue 1 ve 2 deyisir ama sinxronda deyismeliyem cunki beyaq ayrica curencto nun icinde eledim deyismir dinamik gerey 2 defe sorusum oda sefdi
+
+function updateInput(){
+    if (inputFrom.value){
+        inputTo.value = inputFrom.value * obj.currentTo;
+    }
+    if (inputTo.value){
+        inputFrom.value = inputTo.value * (1 / obj.currentTo);
+    }
+}
+
+
+
 //! update the values dynamically
 
 inputFrom.addEventListener("input", ()=>{
@@ -63,13 +73,16 @@ inputFrom.addEventListener("input", ()=>{
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
         inputTo.value = Number(editedValue) * obj.currentTo;
+        fetchingData();
     }
     else if(inputFrom.value == ''){
         inputTo.value = '';
     }
     else{
-        inputTo.value = inputFrom.value * obj.currentFrom;
+        inputTo.value = inputFrom.value * obj.currentTo;
+        fetchingData(); 
     }
+    
 })
 inputTo.addEventListener("input", ()=>{
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
@@ -79,24 +92,20 @@ inputTo.addEventListener("input", ()=>{
         let editedValue = inputTo.value.split('.');
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
-        inputFrom.value = Number(editedValue) * obj.currentFrom;
+        inputFrom.value = Number(editedValue) * (1 / obj.currentTo);
+        fetchingData();
     }
     else if(inputTo.value == ''){
         inputFrom.value = '';
     }
     else{
-        inputFrom.value = inputTo.value * obj.currentTo;
+        inputFrom.value = inputTo.value * (1 / obj.currentTo);
+        fetchingData();
     }
+   
 })
 
-//* big o notationu daha cox olan bir metod
-// const obj = {
-//     from: 'RUB',
-//     to: 'USD',
-//     currentFrom: 0,
-//     currentTo: 0
-// }
-
+//* big o notationu daha cox olan bir metod (biraz sehv olma ehtimali var)
 // currencyFrom.forEach((element)=>{
 //     element.addEventListener("click", ()=>{
 //         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
