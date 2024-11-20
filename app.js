@@ -70,7 +70,10 @@ inputFrom.addEventListener("input", ()=>{
     }
     if (inputFrom.value.includes('.')){
         let editedValue = inputFrom.value.split('.');
-        //!!
+        if (editedValue[1] && editedValue[1].length > 5) {
+            editedValue[1] = editedValue[1].slice(0, 5);
+            inputFrom.value = editedValue.join('.');
+        }
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
         inputTo.value = (Number(editedValue) * obj.currentTo).toFixed(5);
@@ -97,7 +100,10 @@ inputTo.addEventListener("input", ()=>{
     }
     if (inputTo.value.includes(".")){
         let editedValue = inputTo.value.split('.');
-        //!
+        if (editedValue[1] && editedValue[1].length > 5) {
+            editedValue[1] = editedValue[1].slice(0, 5);
+            inputTo.value = editedValue.join('.');
+        }
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('')
         inputFrom.value = (Number(editedValue) * (1 / obj.currentTo)).toFixed(5);
