@@ -114,3 +114,17 @@ main{
     background-color: rgb(130, 60, 222);
     color: #FFF;
 }
+
+@media screen and (max-width: 1400px){
+    #information-side{
+        width: 90%;
+    }
+    .navigations{
+        margin-right:45px;
+        gap: 35px;
+    }
+    main{
+        width: 65%;
+    }
+}
+/*! ele eleki yuxaridaki nav hissesi center olsunki kicildende her defe margin zad mazqi olmasin */

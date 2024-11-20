@@ -15,7 +15,9 @@ const obj = {
     from: 'RUB',
     to: 'USD',
     currentFrom: 0,
-    currentTo: 0
+    currentTo: 0,
+    inputFrom: null,
+    inputTo: null
 }
 
 currencyFrom.forEach((element)=>{
@@ -24,6 +26,7 @@ currencyFrom.forEach((element)=>{
         element.classList.add("purpleBack1");
         obj.from = element.textContent;
         fetchingData();
+       
     })
 })
 currencyTo.forEach((element)=>{
@@ -32,6 +35,7 @@ currencyTo.forEach((element)=>{
         element.classList.add("purpleBack2");
         obj.to = element.textContent;
         fetchingData();
+        
     })
 })
 
@@ -49,6 +53,7 @@ async function fetchingData(){
     })
     .catch((error)=>{
         console.log(error);
+        alert("Please check your internet connection and try again");
     })
 }
 
@@ -64,25 +69,24 @@ function updateInput(){
 
 
 //! update the values dynamically
+//* inputlara nese reqem yazanda axirina 500 dene 0 artirir, duzgun hesablasada cox sifir artirir dalina
 
 inputFrom.addEventListener("input", ()=>{
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     inputFrom.value = reNewed;
+    
     if (inputFrom.value.includes('.')){
         let editedValue = inputFrom.value.split('.');
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
         inputTo.value = Number(editedValue) * obj.currentTo;
-        fetchingData();
     }
     else if(inputFrom.value == ''){
         inputTo.value = '';
     }
     else{
         inputTo.value = inputFrom.value * obj.currentTo;
-        fetchingData(); 
     }
-    
 })
 inputTo.addEventListener("input", ()=>{
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
@@ -93,16 +97,13 @@ inputTo.addEventListener("input", ()=>{
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
         inputFrom.value = Number(editedValue) * (1 / obj.currentTo);
-        fetchingData();
     }
     else if(inputTo.value == ''){
         inputFrom.value = '';
     }
     else{
         inputFrom.value = inputTo.value * (1 / obj.currentTo);
-        fetchingData();
     }
-   
 })
 
 //* big o notationu daha cox olan bir metod (biraz sehv olma ehtimali var)
