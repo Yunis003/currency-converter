@@ -114,7 +114,9 @@ main{
     background-color: rgb(130, 60, 222);
     color: #FFF;
 }
-
+.offlineBox{
+    display: none;
+}
 @media screen and (max-width: 1400px){
     #information-side{
         width: 90%;

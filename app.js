@@ -10,6 +10,7 @@ let currencyTo = document.querySelectorAll(".to");
 let currentValue1 = document.querySelector(".currentValue1");
 let currentValue2 = document.querySelector(".currentValue2");
 
+let offlineBox = document.querySelector(".offlineBox");
 //! assign money values to the currencies
 const obj = {
     from: 'RUB',
@@ -54,8 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //! update the values dynamically
-//* the length of the input after the decimal point should be a maximum of 5 digits
-//* should not work when a dot is placed at the beginning (should be 0. when a dot is placed) HAZIR
+
 inputFrom.addEventListener("input", ()=>{
     if (!navigator.onLine) {
         alert('You are offline. Currency conversion will not work :(');
@@ -64,7 +64,12 @@ inputFrom.addEventListener("input", ()=>{
         return;
     }
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    let dotCount = (reNewed.match(/\./g) || []).length;
+    if (dotCount > 1) {
+        reNewed = reNewed.replace(/\./g, (match, index) => index === reNewed.indexOf('.') ? '.' : '');
+    }
     inputFrom.value = reNewed;
+
     if (reNewed.startsWith('.')){
         inputFrom.value = '0.';
     }
@@ -94,6 +99,10 @@ inputTo.addEventListener("input", ()=>{
         return;
     }
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    let dotCount = (reNewed2.match(/\./g) || []).length;
+    if (dotCount > 1) {
+        reNewed2 = reNewed2.replace(/\./g, (match,index) => index === reNewed2.indexOf('.') ? '.' : '');
+    }
     inputTo.value = reNewed2;
     if (reNewed2.startsWith('.')){
         inputTo.value = '0.';
@@ -145,6 +154,8 @@ currencyTo.forEach((element)=>{
 //! online and offline events
 window.addEventListener('online', () => {
     alert('You are back online :)');
+    inputFrom.placeholder = 'Amount...';
+    inputTo.placeholder = 'Amount...';
     fetchingData();
 });
 
@@ -152,6 +163,8 @@ window.addEventListener('offline', () => {
     alert('You are offline. Currency conversion will not work :(');
     inputFrom.value = '';
     inputTo.value = '';
+    inputFrom.placeholder = 'Offline';
+    inputTo.placeholder = 'Offline';
 });
 
 //* big o notationu daha cox olan bir metod (biraz sehv olma ehtimali var)
