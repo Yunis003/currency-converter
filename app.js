@@ -19,7 +19,6 @@ const obj = {
     inputFrom: null,
     inputTo: null
 }
-//* INTERNETI SONDUR O ISLEMESIN AMA YANDIRANDA O AVTOMATIK ISLEMELIDI HECNEYE CLICK INPUT ELEMEDEN ELAVE ELEDIYIMIZ ISLEMELIDI HEMIN AN
 
 async function fetchingData(){
     await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01f/latest/${obj.from}`)
@@ -55,65 +54,90 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //! update the values dynamically
-//* inputlara nese reqem yazanda axirina 500 dene 0 artirir, duzgun hesablasada cox sifir artirir dalina
 
 inputFrom.addEventListener("input", ()=>{
+    if (!navigator.onLine) {
+        alert('You are offline. Currency conversion will not work.');
+        inputFrom.value = '';
+        inputTo.value = '';
+        return;
+    }
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     inputFrom.value = reNewed;
-    //!!! inputa 0.1 yazanda onu 0 kimi qaytarir onu deqiq duzeltmek lazimdi NOQTEDEN SONRANI UMUMIYYETLE OXUMUR ONA FIKIR VER
-    //!!! inputda noqteden sora maks uzunluq 5 dene olmalidi tofixed(5) ile
     if (inputFrom.value.includes('.')){
-        if (inputFrom.value.index(0) == '.'){
-            inputTo.value = '';
-        }
         let editedValue = inputFrom.value.split('.');
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
-        inputTo.value = Number(editedValue) * obj.currentTo;
+        inputTo.value = (Number(editedValue) * obj.currentTo).toFixed(5);
     }
     else if(inputFrom.value == ''){
         inputTo.value = '';
     }
     else{
-        inputTo.value = inputFrom.value * obj.currentTo;
+        inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
     }
 })
+
 inputTo.addEventListener("input", ()=>{
+    if (!navigator.onLine) {
+        alert('You are offline. Currency conversion will not work.');
+        inputFrom.value = '';
+        inputTo.value = '';
+        return;
+    }
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     inputTo.value = reNewed2;
-    
     if (inputTo.value.includes(".")){
-        if(inputTo.value.index(0) == '.'){
-            inputFrom.value = '';
-        }
         let editedValue = inputTo.value.split('.');
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
-        inputFrom.value = Number(editedValue) * (1 / obj.currentTo);
+        inputFrom.value = (Number(editedValue) * (1 / obj.currentTo)).toFixed(5);
     }
     else if(inputTo.value == ''){
         inputFrom.value = '';
     }
     else{
-        inputFrom.value = inputTo.value * (1 / obj.currentTo);
+        inputFrom.value = (inputTo.value * (1 / obj.currentTo)).toFixed(5);
     }
 })
+
 currencyFrom.forEach((element)=>{
     element.addEventListener("click", ()=>{
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work.');
+            return;
+        }
         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
         element.classList.add("purpleBack1");
         obj.from = element.textContent;
         fetchingData(); 
     })
 })
+
 currencyTo.forEach((element)=>{
     element.addEventListener("click", ()=>{
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work.');
+            return;
+        }
         document.querySelector('.purpleBack2').classList.remove("purpleBack2");
         element.classList.add("purpleBack2");
         obj.to = element.textContent;
         fetchingData();
     })
 })
+
+//! online and offline events
+window.addEventListener('online', () => {
+    alert('You are back online!');
+    fetchingData();
+});
+
+window.addEventListener('offline', () => {
+    alert('You are offline. Currency conversion will not work.');
+    inputFrom.value = '';
+    inputTo.value = '';
+});
 
 //* big o notationu daha cox olan bir metod (biraz sehv olma ehtimali var)
 // currencyFrom.forEach((element)=>{
