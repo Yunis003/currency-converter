@@ -54,18 +54,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //! update the values dynamically
-
+//* the length of the input after the decimal point should be a maximum of 5 digits
+//* should not work when a dot is placed at the beginning (should be 0. when a dot is placed) HAZIR
 inputFrom.addEventListener("input", ()=>{
     if (!navigator.onLine) {
-        alert('You are offline. Currency conversion will not work.');
+        alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
     }
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     inputFrom.value = reNewed;
+    if (reNewed.startsWith('.')){
+        inputFrom.value = '0.';
+    }
     if (inputFrom.value.includes('.')){
         let editedValue = inputFrom.value.split('.');
+        //!!
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
         inputTo.value = (Number(editedValue) * obj.currentTo).toFixed(5);
@@ -80,17 +85,21 @@ inputFrom.addEventListener("input", ()=>{
 
 inputTo.addEventListener("input", ()=>{
     if (!navigator.onLine) {
-        alert('You are offline. Currency conversion will not work.');
+        alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
     }
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     inputTo.value = reNewed2;
+    if (reNewed2.startsWith('.')){
+        inputTo.value = '0.';
+    }
     if (inputTo.value.includes(".")){
         let editedValue = inputTo.value.split('.');
+        //!
         editedValue.splice(1, 0, '.');
-        editedValue = editedValue.join('');
+        editedValue = editedValue.join('')
         inputFrom.value = (Number(editedValue) * (1 / obj.currentTo)).toFixed(5);
     }
     else if(inputTo.value == ''){
@@ -104,7 +113,7 @@ inputTo.addEventListener("input", ()=>{
 currencyFrom.forEach((element)=>{
     element.addEventListener("click", ()=>{
         if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work.');
+            alert('You are offline. Currency conversion will not work :(');
             return;
         }
         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
@@ -117,7 +126,7 @@ currencyFrom.forEach((element)=>{
 currencyTo.forEach((element)=>{
     element.addEventListener("click", ()=>{
         if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work.');
+            alert('You are offline. Currency conversion will not work :(');
             return;
         }
         document.querySelector('.purpleBack2').classList.remove("purpleBack2");
@@ -129,12 +138,12 @@ currencyTo.forEach((element)=>{
 
 //! online and offline events
 window.addEventListener('online', () => {
-    alert('You are back online!');
+    alert('You are back online :)');
     fetchingData();
 });
 
 window.addEventListener('offline', () => {
-    alert('You are offline. Currency conversion will not work.');
+    alert('You are offline. Currency conversion will not work :(');
     inputFrom.value = '';
     inputTo.value = '';
 });
