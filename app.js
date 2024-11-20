@@ -19,25 +19,7 @@ const obj = {
     inputFrom: null,
     inputTo: null
 }
-
-currencyFrom.forEach((element)=>{
-    element.addEventListener("click", ()=>{
-        document.querySelector('.purpleBack1').classList.remove("purpleBack1");
-        element.classList.add("purpleBack1");
-        obj.from = element.textContent;
-        fetchingData();
-       
-    })
-})
-currencyTo.forEach((element)=>{
-    element.addEventListener("click", ()=>{
-        document.querySelector('.purpleBack2').classList.remove("purpleBack2");
-        element.classList.add("purpleBack2");
-        obj.to = element.textContent;
-        fetchingData();
-        
-    })
-})
+//* INTERNETI SONDUR O ISLEMESIN AMA YANDIRANDA O AVTOMATIK ISLEMELIDI HECNEYE CLICK INPUT ELEMEDEN ELAVE ELEDIYIMIZ ISLEMELIDI HEMIN AN
 
 async function fetchingData(){
     await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01f/latest/${obj.from}`)
@@ -47,13 +29,15 @@ async function fetchingData(){
     .then((data)=>{
         let conversionRateTo = data.conversion_rates[obj.to];
         obj.currentTo = conversionRateTo;
-        currentValue1.textContent = `1 ${obj.from} = ${conversionRateTo} ${obj.to}`;
-        currentValue2.textContent = `1 ${obj.to} = ${(1 / conversionRateTo)} ${obj.from}`;
+        currentValue1.textContent = '1' + ' ' + obj.from + ' '+ '=' + ' ' + conversionRateTo.toFixed(5) + ' ' +  obj.to;
+        currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' ' + (1 / conversionRateTo).toFixed(5) + ' ' + obj.from;
         updateInput();
     })
     .catch((error)=>{
         console.log(error);
-        alert("Please check your internet connection and try again");
+        alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
+        inputFrom.value = 0;
+        inputTo.value = 0;
     })
 }
 
@@ -66,7 +50,9 @@ function updateInput(){
     }
 }
 
-
+document.addEventListener("DOMContentLoaded", () => {
+    fetchingData();
+});
 
 //! update the values dynamically
 //* inputlara nese reqem yazanda axirina 500 dene 0 artirir, duzgun hesablasada cox sifir artirir dalina
@@ -74,8 +60,12 @@ function updateInput(){
 inputFrom.addEventListener("input", ()=>{
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     inputFrom.value = reNewed;
-    
+    //!!! inputa 0.1 yazanda onu 0 kimi qaytarir onu deqiq duzeltmek lazimdi NOQTEDEN SONRANI UMUMIYYETLE OXUMUR ONA FIKIR VER
+    //!!! inputda noqteden sora maks uzunluq 5 dene olmalidi tofixed(5) ile
     if (inputFrom.value.includes('.')){
+        if (inputFrom.value.index(0) == '.'){
+            inputTo.value = '';
+        }
         let editedValue = inputFrom.value.split('.');
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
@@ -93,6 +83,9 @@ inputTo.addEventListener("input", ()=>{
     inputTo.value = reNewed2;
     
     if (inputTo.value.includes(".")){
+        if(inputTo.value.index(0) == '.'){
+            inputFrom.value = '';
+        }
         let editedValue = inputTo.value.split('.');
         editedValue.splice(1, 0, '.');
         editedValue = editedValue.join('');
@@ -104,6 +97,22 @@ inputTo.addEventListener("input", ()=>{
     else{
         inputFrom.value = inputTo.value * (1 / obj.currentTo);
     }
+})
+currencyFrom.forEach((element)=>{
+    element.addEventListener("click", ()=>{
+        document.querySelector('.purpleBack1').classList.remove("purpleBack1");
+        element.classList.add("purpleBack1");
+        obj.from = element.textContent;
+        fetchingData(); 
+    })
+})
+currencyTo.forEach((element)=>{
+    element.addEventListener("click", ()=>{
+        document.querySelector('.purpleBack2').classList.remove("purpleBack2");
+        element.classList.add("purpleBack2");
+        obj.to = element.textContent;
+        fetchingData();
+    })
 })
 
 //* big o notationu daha cox olan bir metod (biraz sehv olma ehtimali var)
