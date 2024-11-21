@@ -116,7 +116,114 @@ main{
 .offlineBox{
     display: none;
 }
-@media screen and (max-width: 1400px){
-    
+@media screen and (max-width: 1400px) {
+  body {
+    gap: 50px;
+  }
+
+  #information-side {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .navigations {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  main {
+    width: 80%;
+    gap: 40px;
+  }
+
+  main > h1 {
+    font-size: 36px;
+  }
+
+  .converter-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .moneyType {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .from,
+  .to {
+    width: 45%;
+    height: 40px;
+  }
+
+  .inputSide input {
+    height: 60px;
+    font-size: 36px;
+  }
+}
+
+/* Media Query for Phones (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  body {
+    gap: 30px;
+    padding: 10px;
+  }
+
+  #information-side {
+    gap: 15px;
+  }
+
+  .navigations {
+    display: none; /* Hide the navigation menu on small screens */
+  }
+
+  .sign-btn {
+    padding: 8px;
+  }
+
+  main {
+    width: 100%;
+    gap: 30px;
+  }
+
+  main > h1 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .converter-container {
+    gap: 20px;
+  }
+
+  .box {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .moneyType {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .from,
+  .to {
+    width: 48%;
+    height: 30px;
+  }
+
+  .inputSide input {
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .inputSide span {
+    font-size: 12px;
+  }
 }
 /*! ele eleki yuxaridaki nav hissesi center olsunki kicildende her defe margin zad mazqi olmasin */

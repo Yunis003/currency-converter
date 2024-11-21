@@ -38,11 +38,21 @@ async function fetchingData(){
     })
 }
 
+// Track the last focused input
+let lastFocusedInput = null;
+
+inputFrom.addEventListener('focus', () => {
+    lastFocusedInput = inputFrom;
+});
+
+inputTo.addEventListener('focus', () => {
+    lastFocusedInput = inputTo;
+});
+
 function updateInput(){
-    if (inputFrom.value){
+    if (lastFocusedInput === inputFrom) {
         inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
-    }
-    if (inputTo.value){
+    } else if (lastFocusedInput === inputTo) {
         inputFrom.value = (inputTo.value * (1 / obj.currentTo)).toFixed(5);
     }
 }
@@ -78,7 +88,7 @@ currencyTo.forEach((element)=>{
 
 //! update the values dynamically
 
-inputFrom.addEventListener("input", ()=>{
+inputFrom.addEventListener("input", () => {
     if (!navigator.onLine) {
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
@@ -90,30 +100,30 @@ inputFrom.addEventListener("input", ()=>{
     if (dotCount > 1) {
         reNewed = reNewed.replace(/\./g, (match, index) => index === reNewed.indexOf('.') ? '.' : '');
     }
+    if (reNewed.startsWith('0') && reNewed.length > 1 && reNewed[1] !== '.') {
+        reNewed = '0.' + reNewed.slice(1).replace(/^0+/, '');
+    }
     inputFrom.value = reNewed;
 
-    if (reNewed.startsWith('.')){
+    if (reNewed.startsWith('.')) {
         inputFrom.value = '0.';
     }
-    if (inputFrom.value.includes('.')){
+    if (inputFrom.value.includes('.')) {
         let editedValue = inputFrom.value.split('.');
         if (editedValue[1] && editedValue[1].length > 5) {
             editedValue[1] = editedValue[1].slice(0, 5);
             inputFrom.value = editedValue.join('.');
         }
-        editedValue.splice(1, 0, '.');
-        editedValue = editedValue.join('');
-        inputTo.value = (Number(editedValue) * obj.currentTo).toFixed(5);
-    }
-    else if(inputFrom.value == ''){
+        inputTo.value = (Number(inputFrom.value) * obj.currentTo).toFixed(5);
+    } else if (inputFrom.value == '') {
         inputTo.value = '';
-    }
-    else{
+    } else {
         inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
     }
-})
+    
+});
 
-inputTo.addEventListener("input", ()=>{
+inputTo.addEventListener("input", () => {
     if (!navigator.onLine) {
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
@@ -123,29 +133,29 @@ inputTo.addEventListener("input", ()=>{
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed2.match(/\./g) || []).length;
     if (dotCount > 1) {
-        reNewed2 = reNewed2.replace(/\./g, (match,index) => index === reNewed2.indexOf('.') ? '.' : '');
+        reNewed2 = reNewed2.replace(/\./g, (match, index) => index === reNewed2.indexOf('.') ? '.' : '');
+    }
+    if (reNewed2.startsWith('0') && reNewed2.length > 1 && reNewed2[1] !== '.') {
+        reNewed2 = '0.' + reNewed2.slice(1).replace(/^0+/, '');
     }
     inputTo.value = reNewed2;
-    if (reNewed2.startsWith('.')){
+
+    if (reNewed2.startsWith('.')) {
         inputTo.value = '0.';
     }
-    if (inputTo.value.includes(".")){
+    if (inputTo.value.includes(".")) {
         let editedValue = inputTo.value.split('.');
         if (editedValue[1] && editedValue[1].length > 5) {
             editedValue[1] = editedValue[1].slice(0, 5);
             inputTo.value = editedValue.join('.');
         }
-        editedValue.splice(1, 0, '.');
-        editedValue = editedValue.join('')
-        inputFrom.value = (Number(editedValue) * (1 / obj.currentTo)).toFixed(5);
-    }
-    else if(inputTo.value == ''){
+        inputFrom.value = (Number(inputTo.value) * (1 / obj.currentTo)).toFixed(5);
+    } else if (inputTo.value == '') {
         inputFrom.value = '';
-    }
-    else{
+    } else {
         inputFrom.value = (inputTo.value * (1 / obj.currentTo)).toFixed(5);
     }
-})
+});
 
 
 
