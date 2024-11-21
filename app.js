@@ -10,15 +10,12 @@ let currencyTo = document.querySelectorAll(".to");
 let currentValue1 = document.querySelector(".currentValue1");
 let currentValue2 = document.querySelector(".currentValue2");
 
-let offlineBox = document.querySelector(".offlineBox");
 //! assign money values to the currencies
 const obj = {
     from: 'RUB',
     to: 'USD',
     currentFrom: 0,
-    currentTo: 0,
-    inputFrom: null,
-    inputTo: null
+    currentTo: 0
 }
 
 async function fetchingData(){
@@ -43,16 +40,41 @@ async function fetchingData(){
 
 function updateInput(){
     if (inputFrom.value){
-        inputTo.value = inputFrom.value * obj.currentTo;
+        inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
     }
     if (inputTo.value){
-        inputFrom.value = inputTo.value * (1 / obj.currentTo);
+        inputFrom.value = (inputTo.value * (1 / obj.currentTo)).toFixed(5);
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchingData();
 });
+currencyFrom.forEach((element)=>{
+    element.addEventListener("click", ()=>{
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work :(');
+            return;
+        }
+        document.querySelector('.purpleBack1').classList.remove("purpleBack1");
+        element.classList.add("purpleBack1");
+        obj.from = element.textContent;
+        fetchingData(); 
+    })
+})
+
+currencyTo.forEach((element)=>{
+    element.addEventListener("click", ()=>{
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work :(');
+            return;
+        }
+        document.querySelector('.purpleBack2').classList.remove("purpleBack2");
+        element.classList.add("purpleBack2");
+        obj.to = element.textContent;
+        fetchingData();
+    })
+})
 
 //! update the values dynamically
 
@@ -125,31 +147,7 @@ inputTo.addEventListener("input", ()=>{
     }
 })
 
-currencyFrom.forEach((element)=>{
-    element.addEventListener("click", ()=>{
-        if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work :(');
-            return;
-        }
-        document.querySelector('.purpleBack1').classList.remove("purpleBack1");
-        element.classList.add("purpleBack1");
-        obj.from = element.textContent;
-        fetchingData(); 
-    })
-})
 
-currencyTo.forEach((element)=>{
-    element.addEventListener("click", ()=>{
-        if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work :(');
-            return;
-        }
-        document.querySelector('.purpleBack2').classList.remove("purpleBack2");
-        element.classList.add("purpleBack2");
-        obj.to = element.textContent;
-        fetchingData();
-    })
-})
 
 //! online and offline events
 window.addEventListener('online', () => {
