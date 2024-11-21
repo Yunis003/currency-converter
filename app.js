@@ -32,7 +32,7 @@ const obj = {
 }
 
 async function fetchingData(){
-    await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01f/latest/${obj.from}`)
+    await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01/latest/${obj.from}`)
     .then((response)=>{
         return response.json();
     })
@@ -45,7 +45,7 @@ async function fetchingData(){
     })
     .catch((error)=>{
         console.log(error);
-        // alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
+        alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
         inputFrom.value = 0;
         inputTo.value = 0;
     })
@@ -72,10 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 currencyFrom.forEach((element)=>{
     element.addEventListener("click", ()=>{
-        // if (!navigator.onLine) {
-        //     alert('You are offline. Currency conversion will not work :(');
-        //     return;
-        // }
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work :(');
+            return;
+        }
         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
         element.classList.add("purpleBack1");
         obj.from = element.textContent;
@@ -85,10 +85,10 @@ currencyFrom.forEach((element)=>{
 
 currencyTo.forEach((element)=>{
     element.addEventListener("click", ()=>{
-        // if (!navigator.onLine) {
-        //     alert('You are offline. Currency conversion will not work :(');
-        //     return;
-        // }
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work :(');
+            return;
+        }
         document.querySelector('.purpleBack2').classList.remove("purpleBack2");
         element.classList.add("purpleBack2");
         obj.to = element.textContent;
@@ -100,20 +100,10 @@ currencyTo.forEach((element)=>{
 
 inputFrom.addEventListener("input", () => {
     if (!navigator.onLine) {
-        if (obj.from === obj.to) {
-            if (inputFrom.value){
-                inputTo.value = inputFrom.value;
-            }
-            if (inputTo.value){
-                inputFrom.value = inputTo.value;
-            }
-        }
-        else{
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
-        }
     }
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed.match(/\./g) || []).length;
@@ -145,20 +135,10 @@ inputFrom.addEventListener("input", () => {
 
 inputTo.addEventListener("input", () => {
     if (!navigator.onLine) {
-        if (obj.from === obj.to) {
-            if (inputFrom.value){
-                inputTo.value = inputFrom.value;
-            }
-            if (inputTo.value){
-                inputFrom.value = inputTo.value;
-            }
-        }
-        else{
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
-        }
     }
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed2.match(/\./g) || []).length;
@@ -198,6 +178,7 @@ window.addEventListener('online', () => {
 });
 
 //* ele seyde elave eleki elementlere klik eliyende asagidaki spanlarinda textleri deyissin
+//* WIFI TEMASIDA ISLEMIR
 window.addEventListener('offline', () => {
     alert('You are offline. Currency conversion will not work :(');
     inputFrom.placeholder = 'Offline';
