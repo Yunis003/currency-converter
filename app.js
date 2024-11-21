@@ -38,17 +38,14 @@ async function fetchingData(){
     })
 }
 
-// Track the last focused input
-let lastFocusedInput = null;
 
+let lastFocusedInput = null;
 inputFrom.addEventListener('focus', () => {
     lastFocusedInput = inputFrom;
 });
-
 inputTo.addEventListener('focus', () => {
     lastFocusedInput = inputTo;
 });
-
 function updateInput(){
     if (lastFocusedInput === inputFrom) {
         inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
@@ -62,10 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 currencyFrom.forEach((element)=>{
     element.addEventListener("click", ()=>{
-        if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work :(');
-            return;
-        }
+        // if (!navigator.onLine) {
+        //     alert('You are offline. Currency conversion will not work :(');
+        //     return;
+        // }
         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
         element.classList.add("purpleBack1");
         obj.from = element.textContent;
@@ -75,10 +72,10 @@ currencyFrom.forEach((element)=>{
 
 currencyTo.forEach((element)=>{
     element.addEventListener("click", ()=>{
-        if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work :(');
-            return;
-        }
+        // if (!navigator.onLine) {
+        //     alert('You are offline. Currency conversion will not work :(');
+        //     return;
+        // }
         document.querySelector('.purpleBack2').classList.remove("purpleBack2");
         element.classList.add("purpleBack2");
         obj.to = element.textContent;
@@ -90,10 +87,16 @@ currencyTo.forEach((element)=>{
 
 inputFrom.addEventListener("input", () => {
     if (!navigator.onLine) {
+        if (obj.from === obj.to) {
+            let temp = inputFrom.value
+            inputTo.value = temp;
+        }
+        else{
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
+        }
     }
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed.match(/\./g) || []).length;
@@ -125,10 +128,16 @@ inputFrom.addEventListener("input", () => {
 
 inputTo.addEventListener("input", () => {
     if (!navigator.onLine) {
+        if (obj.from === obj.to) {
+            let temp = inputTo.value;
+            inputFrom.value = temp;
+        }
+        else{
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
+        }
     }
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed2.match(/\./g) || []).length;
@@ -168,9 +177,7 @@ window.addEventListener('online', () => {
 });
 
 window.addEventListener('offline', () => {
-    alert('You are offline. Currency conversion will not work :(');
-    inputFrom.value = '';
-    inputTo.value = '';
+    // alert('You are offline. Currency conversion will not work :(');
     inputFrom.placeholder = 'Offline';
     inputTo.placeholder = 'Offline';
 });
