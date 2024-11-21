@@ -10,6 +10,19 @@ let currencyTo = document.querySelectorAll(".to");
 let currentValue1 = document.querySelector(".currentValue1");
 let currentValue2 = document.querySelector(".currentValue2");
 
+//! burger menu
+let burger = document.querySelector('.burgerMenu');
+burger.addEventListener('click', () => {
+    let nav = document.querySelector('.nav');
+    nav.classList.toggle('nav-active');
+})
+
+document.addEventListener('click', (e) => {
+    if (e.target !== nav) {
+        nav.classList.remove('nav-active');
+    }
+})
+
 //! assign money values to the currencies
 const obj = {
     from: 'RUB',
@@ -32,7 +45,7 @@ async function fetchingData(){
     })
     .catch((error)=>{
         console.log(error);
-        alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
+        // alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
         inputFrom.value = 0;
         inputTo.value = 0;
     })
@@ -88,8 +101,12 @@ currencyTo.forEach((element)=>{
 inputFrom.addEventListener("input", () => {
     if (!navigator.onLine) {
         if (obj.from === obj.to) {
-            let temp = inputFrom.value
-            inputTo.value = temp;
+            if (inputFrom.value){
+                inputTo.value = inputFrom.value;
+            }
+            if (inputTo.value){
+                inputFrom.value = inputTo.value;
+            }
         }
         else{
         alert('You are offline. Currency conversion will not work :(');
@@ -129,8 +146,12 @@ inputFrom.addEventListener("input", () => {
 inputTo.addEventListener("input", () => {
     if (!navigator.onLine) {
         if (obj.from === obj.to) {
-            let temp = inputTo.value;
-            inputFrom.value = temp;
+            if (inputFrom.value){
+                inputTo.value = inputFrom.value;
+            }
+            if (inputTo.value){
+                inputFrom.value = inputTo.value;
+            }
         }
         else{
         alert('You are offline. Currency conversion will not work :(');
@@ -176,8 +197,9 @@ window.addEventListener('online', () => {
     fetchingData();
 });
 
+//* ele seyde elave eleki elementlere klik eliyende asagidaki spanlarinda textleri deyissin
 window.addEventListener('offline', () => {
-    // alert('You are offline. Currency conversion will not work :(');
+    alert('You are offline. Currency conversion will not work :(');
     inputFrom.placeholder = 'Offline';
     inputTo.placeholder = 'Offline';
 });

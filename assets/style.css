@@ -54,6 +54,30 @@ header {
         background-color: #e6e6e6;
     }
 }
+.nav{
+  display: none;
+  width: 200px;
+  position: absolute;
+  right: 27px;
+  top: 90px;
+  background-color: rgb(245, 245, 245);
+  border-radius: 3px;
+}
+.nav ul{
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.burgerMenu{
+  display: none;
+}
+.nav-active{
+  display: block;
+}
 main{
     width: 53%;
     display: flex;
@@ -117,113 +141,86 @@ main{
     display: none;
 }
 @media screen and (max-width: 1400px) {
-  body {
-    gap: 50px;
+    main{
+        width: 60%;
+    }
+}
+@media  screen and (max-width: 1300px) {
+    main{
+        width: 65%;
+    }
+    #information-side{
+        width: 95%;
+    }
+    .navigations{
+        gap: 40px;
+    }
+}
+@media  screen and (max-width: 1200px) {
+    main{
+        width: 70%;
+    }
+    #information-side{
+        width: 95%;
+    }
+    .navigations{
+        gap: 30px;
+    }
+}
+@media screen and (max-width: 1100px) {
+    main{
+        width: 75%;
+    }
+    #information-side{
+        width: 98%;
+    }
+    .navigations{
+        gap: 35px;
+        font-size: 14px;
+    }
+}
+@media screen and (min-width:320px) and (max-width: 991px){
+  .navigations{
+    display: none;
   }
-
-  #information-side {
-    flex-direction: column;
-    gap: 20px;
-    padding: 15px;
+  #information-side{
+    position: relative;
   }
-
-  .navigations {
-    flex-wrap: wrap;
-    gap: 20px;
+  .burgerMenu{
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    right: 120px;
+    top: auto;
   }
-
-  main {
-    width: 80%;
-    gap: 40px;
-  }
-
-  main > h1 {
-    font-size: 36px;
-  }
-
-  .converter-container {
-    flex-direction: column;
-    align-items: center;
+  main{
     gap: 30px;
+    >h1{
+      font-size: 30px;
+    }
   }
-
-  .box {
-    width: 100%;
-  }
-
-  .moneyType {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .from,
-  .to {
-    width: 45%;
-    height: 40px;
-  }
-
-  .inputSide input {
-    height: 60px;
-    font-size: 36px;
+  .converter-container{
+    flex-direction: column;
+    gap: 30px;
   }
 }
-
-/* Media Query for Phones (max-width: 768px) */
-@media screen and (max-width: 768px) {
-  body {
-    gap: 30px;
-    padding: 10px;
+@media screen and (max-width: 850px) {
+  main h1{
+    font-size: 25px;
   }
-
-  #information-side {
-    gap: 15px;
+  .box{
+    width: 300px;
   }
-
-  .navigations {
-    display: none; /* Hide the navigation menu on small screens */
+  .inputSide{
+    height: 130px;
   }
-
-  .sign-btn {
-    padding: 8px;
+}
+@media screen and (max-width: 420px){
+  .box{
+    width: 250px;
   }
-
-  main {
-    width: 100%;
-    gap: 30px;
-  }
-
-  main > h1 {
-    font-size: 28px;
-    text-align: center;
-  }
-
-  .converter-container {
-    gap: 20px;
-  }
-
-  .box {
-    width: 100%;
-    gap: 10px;
-  }
-
-  .moneyType {
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .from,
-  .to {
-    width: 48%;
-    height: 30px;
-  }
-
-  .inputSide input {
-    height: 50px;
-    font-size: 24px;
-  }
-
-  .inputSide span {
-    font-size: 12px;
+  .inputSide{
+    height: 110px;
   }
 }
 /*! ele eleki yuxaridaki nav hissesi center olsunki kicildende her defe margin zad mazqi olmasin */
