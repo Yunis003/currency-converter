@@ -75,27 +75,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 currencyFrom.forEach((element) => {
     element.addEventListener("click", () => {
-        if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work :(');
-            
-        }
         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
         element.classList.add("purpleBack1");
         obj.from = element.textContent;
-        fetchingData();
+        if (!navigator.onLine) {
+            inputFrom.value = 0;
+            inputTo.value = 0;
+            alert('You are offline. Currency conversion will not work :(');
+            currentValue1.textContent = `1 ${obj.from} = 1 ${obj.to}`;
+            currentValue2.textContent = `1 ${obj.to} = 1 ${obj.from}`;
+        } else {
+            fetchingData();
+        }
     });
 });
 
 currencyTo.forEach((element) => {
     element.addEventListener("click", () => {
-        if (!navigator.onLine) {
-            alert('You are offline. Currency conversion will not work :(');
-            
-        }
         document.querySelector('.purpleBack2').classList.remove("purpleBack2");
         element.classList.add("purpleBack2");
         obj.to = element.textContent;
-        fetchingData();
+        if (!navigator.onLine) {
+            alert('You are offline. Currency conversion will not work :(');
+            inputFrom.value = 0;
+            inputTo.value = 0;
+            currentValue1.textContent = `1 ${obj.from} = 1 ${obj.to}`;
+            currentValue2.textContent = `1 ${obj.to} = 1 ${obj.from}`;
+        } else {
+            fetchingData();
+        }
     });
 });
 
@@ -150,19 +158,27 @@ inputTo.addEventListener("input", () => {
             currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' 1 ' + obj.to;
             currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' 1 ' + obj.from;
             updateInput();
-        }
-        else{
-        alert('You are offline. Currency conversion will not work :(');
-        inputFrom.value = '';
-        inputTo.value = '';
-        return;
+        } else {
+            alert('You are offline. Currency conversion will not work :(');
+            inputFrom.value = '';
+            inputTo.value = '';
+            return;
         }
     }
-    let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
-    let dotCount = (reNewed2.match(/\./g) || []).length;
-    if (dotCount > 1) {
-        reNewed2 = reNewed2.replace(/\./g, (match, index) => index === reNewed2.indexOf('.') ? '.' : '');
+    let changing = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    let dotCount2 = (changing.match(/\./g) || []).length;
+    if (dotCount2 > 1) {
+        changing = changing.replace(/\./g, (match, index) => index === changing.indexOf('.') ? '.' : '');
     }
+    if (changing.startsWith('0') && changing.length > 1 && changing[1] !== '.') {
+        changing = '0.' + changing.slice(1).replace(/^0+/, '');
+    }
+    inputTo.value = changing;
+
+    if (changing.startsWith('.')) {
+        inputTo.value = '0.';
+    }
+
     if (inputTo.value.includes(".")) {
         let editedValue = inputTo.value.split('.');
         if (editedValue[1] && editedValue[1].length > 5) {
