@@ -34,7 +34,7 @@ async function fetchingData() {
         return;
     }
 
-    await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01f/latest/${obj.from}`)
+    await fetch(`https://v6.exchangerate-api.com/v6/38d280d6532ef9abaa883347/latest/${obj.from}`)
         .then((response) => {
             return response.json();
         })
