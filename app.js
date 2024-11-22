@@ -31,26 +31,33 @@ const obj = {
     currentTo: 0
 }
 
-async function fetchingData(){
-    await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01/latest/${obj.from}`)
-    .then((response)=>{
-        return response.json();
-    })
-    .then((data)=>{
-        let conversionRateTo = data.conversion_rates[obj.to];
-        obj.currentTo = conversionRateTo;
-        currentValue1.textContent = '1' + ' ' + obj.from + ' '+ '=' + ' ' + conversionRateTo.toFixed(5) + ' ' +  obj.to;
-        currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' ' + (1 / conversionRateTo).toFixed(5) + ' ' + obj.from;
+async function fetchingData() {
+    if (obj.from === obj.to) {
+        obj.currentTo = 1;
+        currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' 1 ' + obj.to;
+        currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' 1 ' + obj.from;
         updateInput();
-    })
-    .catch((error)=>{
-        console.log(error);
-        alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
-        inputFrom.value = 0;
-        inputTo.value = 0;
-    })
-}
+        return;
+    }
 
+    await fetch(`https://v6.exchangerate-api.com/v6/3195f2d508e35437dd7db01f/latest/${obj.from}`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            let conversionRateTo = data.conversion_rates[obj.to];
+            obj.currentTo = conversionRateTo;
+            currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' ' + conversionRateTo.toFixed(5) + ' ' + obj.to;
+            currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' ' + (1 / conversionRateTo).toFixed(5) + ' ' + obj.from;
+            updateInput();
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
+            inputFrom.value = 0;
+            inputTo.value = 0;
+        });
+}
 
 let lastFocusedInput = null;
 inputFrom.addEventListener('focus', () => {
@@ -59,7 +66,8 @@ inputFrom.addEventListener('focus', () => {
 inputTo.addEventListener('focus', () => {
     lastFocusedInput = inputTo;
 });
-function updateInput(){
+
+function updateInput() {
     if (lastFocusedInput === inputFrom) {
         inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
     } else if (lastFocusedInput === inputTo) {
@@ -70,40 +78,49 @@ function updateInput(){
 document.addEventListener("DOMContentLoaded", () => {
     fetchingData();
 });
-currencyFrom.forEach((element)=>{
-    element.addEventListener("click", ()=>{
+
+currencyFrom.forEach((element) => {
+    element.addEventListener("click", () => {
         if (!navigator.onLine) {
             alert('You are offline. Currency conversion will not work :(');
-            return;
+            
         }
         document.querySelector('.purpleBack1').classList.remove("purpleBack1");
         element.classList.add("purpleBack1");
         obj.from = element.textContent;
-        fetchingData(); 
-    })
-})
+        fetchingData();
+    });
+});
 
-currencyTo.forEach((element)=>{
-    element.addEventListener("click", ()=>{
+currencyTo.forEach((element) => {
+    element.addEventListener("click", () => {
         if (!navigator.onLine) {
             alert('You are offline. Currency conversion will not work :(');
-            return;
+            
         }
         document.querySelector('.purpleBack2').classList.remove("purpleBack2");
         element.classList.add("purpleBack2");
         obj.to = element.textContent;
         fetchingData();
-    })
-})
+    });
+});
 
 //! update the values dynamically
 
 inputFrom.addEventListener("input", () => {
     if (!navigator.onLine) {
+        if (obj.from === obj.to) {
+            obj.currentTo = 1;
+            currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' 1 ' + obj.to;
+            currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' 1 ' + obj.from;
+            updateInput();
+        }
+        else{
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
+        }
     }
     let reNewed = inputFrom.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed.match(/\./g) || []).length;
@@ -130,28 +147,27 @@ inputFrom.addEventListener("input", () => {
     } else {
         inputTo.value = (inputFrom.value * obj.currentTo).toFixed(5);
     }
-    
 });
 
 inputTo.addEventListener("input", () => {
     if (!navigator.onLine) {
+        if (obj.from === obj.to) {
+            obj.currentTo = 1;
+            currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' 1 ' + obj.to;
+            currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' 1 ' + obj.from;
+            updateInput();
+        }
+        else{
         alert('You are offline. Currency conversion will not work :(');
         inputFrom.value = '';
         inputTo.value = '';
         return;
+        }
     }
     let reNewed2 = inputTo.value.replace(/[^0-9.,]/g, '').replace(',', '.');
     let dotCount = (reNewed2.match(/\./g) || []).length;
     if (dotCount > 1) {
         reNewed2 = reNewed2.replace(/\./g, (match, index) => index === reNewed2.indexOf('.') ? '.' : '');
-    }
-    if (reNewed2.startsWith('0') && reNewed2.length > 1 && reNewed2[1] !== '.') {
-        reNewed2 = '0.' + reNewed2.slice(1).replace(/^0+/, '');
-    }
-    inputTo.value = reNewed2;
-
-    if (reNewed2.startsWith('.')) {
-        inputTo.value = '0.';
     }
     if (inputTo.value.includes(".")) {
         let editedValue = inputTo.value.split('.');
@@ -174,15 +190,24 @@ window.addEventListener('online', () => {
     alert('You are back online :)');
     inputFrom.placeholder = 'Amount...';
     inputTo.placeholder = 'Amount...';
-    fetchingData();
 });
 
-//* ele seyde elave eleki elementlere klik eliyende asagidaki spanlarinda textleri deyissin
-//* WIFI TEMASIDA ISLEMIR
 window.addEventListener('offline', () => {
     alert('You are offline. Currency conversion will not work :(');
     inputFrom.placeholder = 'Offline';
     inputTo.placeholder = 'Offline';
+     if (obj.from === obj.to) {
+        obj.currentTo = 1;
+        currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' 1 ' + obj.to;
+        currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' 1 ' + obj.from;
+        updateInput();
+    }
+    else {
+        currentValue1.textContent = '1' + ' ' + obj.from + ' ' + '=' + ' 1 ' + obj.to;
+        currentValue2.textContent = '1' + ' ' + obj.to + ' ' + '=' + ' 1 ' + obj.from;
+        inputFrom.value = 0;
+        inputTo.value = 0;
+    }
 });
 
 //* big o notationu daha cox olan bir metod (biraz sehv olma ehtimali var)
