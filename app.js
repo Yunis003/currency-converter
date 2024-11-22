@@ -17,12 +17,6 @@ burger.addEventListener('click', () => {
     nav.classList.toggle('nav-active');
 })
 
-document.addEventListener('click', (e) => {
-    if (e.target !== nav) {
-        nav.classList.remove('nav-active');
-    }
-})
-
 //! assign money values to the currencies
 const obj = {
     from: 'RUB',
