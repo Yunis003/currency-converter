@@ -200,6 +200,7 @@ inputTo.addEventListener("input", () => {
 //! online and offline events
 window.addEventListener('online', () => {
     alert('You are back online :)');
+    offlineDiv.style.display = 'none';
     inputFrom.placeholder = 'Amount...';
     inputTo.placeholder = 'Amount...';
 });
