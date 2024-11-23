@@ -10,6 +10,8 @@ let currencyTo = document.querySelectorAll(".to");
 let currentValue1 = document.querySelector(".currentValue1");
 let currentValue2 = document.querySelector(".currentValue2");
 
+let offlineDiv = document.querySelector('.offlineDiv');
+
 //! burger menu
 let burger = document.querySelector('.burgerMenu');
 burger.addEventListener('click', () => {
@@ -47,7 +49,7 @@ async function fetchingData() {
         })
         .catch((error) => {
             console.log(error);
-            alert("Its about your internet connection, please check it out and try again later (or just API is not working :D)");
+            offlineDiv.style.display = 'block';
             inputFrom.value = 0;
             inputTo.value = 0;
         });
@@ -203,7 +205,7 @@ window.addEventListener('online', () => {
 });
 
 window.addEventListener('offline', () => {
-    alert('You are offline. Currency conversion will not work :(');
+    offlineDiv.style.display = 'block';
     inputFrom.placeholder = 'Offline';
     inputTo.placeholder = 'Offline';
      if (obj.from === obj.to) {

@@ -140,6 +140,15 @@ main{
 .offlineBox{
     display: none;
 }
+.offlineDiv{
+  display: none;
+  position: absolute;
+  top: 120px;
+  width: 400px;
+  height: 50px;
+  color: red;
+  text-align: center;
+}
 @media screen and (max-width: 1400px) {
     main{
         width: 60%;
@@ -214,6 +223,9 @@ main{
   .inputSide{
     height: 130px;
   }
+  .offlineDiv{
+    font-size: 14px;
+  }
 }
 @media screen and (max-width: 420px){
   .box{
@@ -221,5 +233,8 @@ main{
   }
   .inputSide{
     height: 110px;
+  }
+  .offlineDiv{
+    font-size: 12px;
   }
 }
